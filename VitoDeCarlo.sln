@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VitoDeCarlo.Cms", "VitoDeCarlo.Cms\VitoDeCarlo.Cms.csproj", "{2A14C9BA-8A97-413B-B454-B1C394500D80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VitoDeCarlo.Theme", "VitoDeCarlo.Theme\VitoDeCarlo.Theme.csproj", "{4BBE3B1A-0AE6-46FE-9ECC-072C2BFE1B7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A14C9BA-8A97-413B-B454-B1C394500D80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A14C9BA-8A97-413B-B454-B1C394500D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A14C9BA-8A97-413B-B454-B1C394500D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A14C9BA-8A97-413B-B454-B1C394500D80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BBE3B1A-0AE6-46FE-9ECC-072C2BFE1B7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BBE3B1A-0AE6-46FE-9ECC-072C2BFE1B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BBE3B1A-0AE6-46FE-9ECC-072C2BFE1B7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BBE3B1A-0AE6-46FE-9ECC-072C2BFE1B7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F2AE622B-FDD3-447D-87F0-4714E6C73473}
+	EndGlobalSection
+EndGlobal

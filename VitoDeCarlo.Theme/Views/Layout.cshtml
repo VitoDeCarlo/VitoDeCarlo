@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="@Orchard.CultureName()">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@RenderTitleSegments(Site.SiteName, "before")</title>
+    <!-- FavIcon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/VitoDeCarlo.Theme/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/VitoDeCarlo.Theme/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/VitoDeCarlo.Theme/icons/favicon-16x16.png">
+    <link rel="manifest" href="/VitoDeCarlo.Theme/icons/site.webmanifest">
+    <link rel="mask-icon" href="/VitoDeCarlo.Theme/icons/safari-pinned-tab.svg" color="#242448">
+    <link rel="shortcut icon" href="/VitoDeCarlo.Theme/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#151341">
+    <meta name="msapplication-config" content="/VitoDeCarlo.Theme/icons/browserconfig.xml">
+    <meta name="theme-color" content="#000000">
+    <!-- CSS & JS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-rqn26AG5Pj86AF4SO72RK5fyefcQ/x32DNQfChxWvbXIyXFePlEktwD18fEz+kQU" crossorigin="anonymous">
+    <link rel="stylesheet" href="/VitoDeCarlo.Theme/css/site.css" asp-append-version="true" />
+    <resources type="Meta" />
+    <resources type="HeadLink" />
+    <resources type="Stylesheet" />
+    <resources type="HeadScript" />
+    @await RenderSectionAsync("HeadMeta", required: false)
+</head>
+<body dir="@Orchard.CultureDir()">
+<div class="page">
+    <div class="content">
+        <!-- HEADER SECTION -->
+        @if (IsSectionDefined("Header"))
+        {
+        @await RenderSectionAsync("Header", required: false)
+        }
+
+        <!-- MAIN SECTION -->
+        <main role="main">
+            <!-- MESSAGES -->
+            @await RenderSectionAsync("Messages", required: false)
+            <!-- CONTENT -->
+            @await RenderBodyAsync()
+        </main>
+
+        <!-- FOOTER SECTION -->
+        @if (IsSectionDefined("Footer"))
+        {
+        <footer>
+            @await RenderSectionAsync("Footer", required: false)
+        </footer>
+        }
+    </div>
+</div>
+<menu alias="alias:main-menu" />
+
+    <resources type="FootScript" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="/VitoDeCarlo.Theme/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+{% zone "Header" %}
+<!-- Header -->
+<header class="masthead">
+    <div class="container">
+        <div class="masthead-subheading">Welcome To Our Studio!</div>
+        <div class="masthead-heading text-uppercase">{{ Model.ContentItem | display_text }}</div>
+        <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a>
+    </div>
+</header>
+{% endzone %}
+
+<div>Category: {% shape "term", alias: "alias:categories" %}</div>
+
+{% if Model.ContentItem.Content.BagPart.ContentItems.size > 0 %}
+<!-- Photo Grid -->
+<section class="page-section bg-light" id="photos">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Photo Gallery</h2>
+            <h3 class="section-subheading text-muted">Photos I've taken over the years.</h3>
+        </div>
+        <div class="row">
+            {% for photo in Model.ContentItem.Content.BagPart.ContentItems %}
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <div class="portfolio-item">
+                    <a class="portfolio-link" data-bs-toggle="modal" href="#photoModal{{ forloop.index }}">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                        <img class="img-fluid" src="{{ photo.GalleryItem.Image.Paths.first | asset_url | resize_url: profile: 'large', mode: 'stretch' }}" alt="{{ photo.DisplayText }}" />
+                    </a>
+                    <div class="portfolio-caption">
+                        <div class="portfolio-caption-heading">{{ photo.DisplayText }}</div>
+                        <div>Category: 
+                            {% assign taxonomyId = photo.GalleryItem.Category.TaxonomyContentItemId %}
+                            {% for termId in photo.GalleryItem.Category.TermContentItemIds %}
+                              <div>
+                                {% assign parentTerms = termId | inherited_terms: taxonomyId %}
+                                {% for c in  parentTerms %}
+                                    <a href="{{termId}}">{{c}}</a>
+                                {% endfor %}
+                              </div>
+                            {% endfor %}
+                      	</div>
+                        <div>Tag: {{ photo.GalleryItem.Tags.TagNames.first }}</div>
+
+                        <span class="meta">
+                            {% assign format = "MMMM dd, yyyy" | t %}
+                            {% assign dateTime = "DateTime" | shape_new: utc: Model.ContentItem.CreatedUtc, format: format | shape_stringify %}
+                            {{ "Posted by" | t }} <a href="#">{{ Model.ContentItem.Author }}</a> {{ "on {0}" | t: dateTime | raw }}
+                        </span>
+                        <span class="meta">
+                            {% assign dateTaken = "DateTime" | shape_new: utc: Model.ContentItem.DateTaken, format: format | shape_stringify %}
+                            {{ "Taken on" | t }} {{ "on {0}" | t: dateTaken | raw }}
+                        </span>
+
+                        <span class="term-badge">
+                            {% assign categoryTerms = photo.GalleryItem.Category | taxonomy_terms %}
+                            {% for categoryTerm in categoryTerms %}
+                                {% a display_for:categoryTerm %}
+                                    <span class="badge bg-secondary">
+                                        <i class="{{ categoryTerm.Content.Category.Icon.Text }} fa-xs align-middle"></i>
+                                        <span class="align-middle">{{ categoryTerm.DisplayText }}</span>
+                                    </span>
+                                {% enda %}
+                            {% endfor %}
+
+                            {% assign tagTerms = photo.GalleryItem.Tags | taxonomy_terms %}
+                            {% for tagTerm in tagTerms %}
+                                {% a display_for:tagTerm %}
+                                    <span class="badge bg-secondary">
+                                        <i class="fas fa-tag fa-xs fa-rotate-90 align-middle" aria-hidden="true"></i>
+                                        <span class="align-middle">{{ tagTerm.DisplayText }}</span> 
+                                    </span>
+                                {% enda %}
+                            {% endfor %}
+                        </span>
+
+                        <div class="portfolio-caption-subheading text-muted">{{ photo.GalleryItem.Category.Text }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Modals -->
+{% for photo in Model.ContentItem.Content.BagPart.ContentItems %}
+<div class="portfolio-modal modal fade" id="photoModal{{ forloop.index }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="close-modal" data-bs-dismiss="modal"><img src="/TheAgencyTheme/assets/img/close-icon.svg" alt="Close modal" /></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="modal-body">
+                        <!-- Photo Details Go Here -->
+                        <img class="img-fluid d-block mx-auto" src="{{ photo.GalleryItem.Image.Paths.first | asset_url | resize_url: profile: 'extralarge', mode: 'max' }}" alt="{{ photo.DisplayText }}">
+                        <h2 class="text-uppercase">{{ photo.DisplayText }}</h2>
+                        <p class="item-intro text-muted">
+
+
+                        </p>
+                        {% comment %}
+                        <ul class="list-inline">
+                            <li>Date: January 2017</li>
+                            <li>Client: Threads</li>
+                            <li>Category: Illustration</li>
+                        </ul>
+                        {% endcomment %}
+                        <button class="btn btn-primary" data-bs-dismiss="modal" type="button">
+                            <i class="fa fa-times me-1"></i>
+                            Close Project
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
