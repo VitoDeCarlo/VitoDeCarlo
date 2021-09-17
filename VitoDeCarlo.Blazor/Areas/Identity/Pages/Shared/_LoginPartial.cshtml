@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<li>
+@if (SignInManager.IsSignedIn(User))
+{
+    <a asp-area="Identity" asp-page="/Account/Manage"><i class="fad fa-user fa-2x"></i></a>
+}
+else
+{
+    <a asp-area="Identity" asp-page="/Account/Login"><i class="fad fa-user fa-2x"></i></a>
+}
+</li>

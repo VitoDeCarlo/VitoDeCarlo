@@ -1,0 +1,28 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>VitoDeCarlo.Blazor</PageTitle>
+
+<div class="page">
+    @Body
+</div>
+<nav class="navbar">
+<ul>
+    <li>
+        <NavLink class="navbar-brand" href="/">
+            <img src="/icon-192.png" alt="V" />
+        </NavLink>
+    </li>
+    <li>
+        <NavLink class="nav-link" href="gallery">
+            <span class="fad fa-camera fa-2x" aria-hidden="true" title="Gallery"></span>
+        </NavLink>
+    </li>
+
+    <li>
+    <AuthorizeView>
+        <Authorized><a href="/Identity/Account/Manage"><i class="fad fa-user fa-2x"></i></a></Authorized>
+        <NotAuthorized><a href="/Identity/Account/Login"><i class="fad fa-user fa-2x"></i></a></NotAuthorized>
+    </AuthorizeView>
+    </li>
+</ul>
+</nav>

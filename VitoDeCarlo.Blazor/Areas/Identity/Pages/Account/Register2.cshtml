@@ -1,0 +1,152 @@
+﻿@page
+@model Register2Model
+@{
+    ViewData["Title"] = "New User Registration";
+    bool isSignedIn = ViewBag.IsSignedIn ?? false;
+}
+<div class="container my-3">
+    <div class="col-md-10">
+
+        <h4>@ViewData["Title"]</h4>
+        <hr />
+
+        @if (!isSignedIn)
+        {
+            <form asp-page="/Account/ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                <button type="submit" class="btn btn-outline-primary mx-1 my-2" name="provider" value="Google" title="Log in using your Google account"><i class="svg fa-2x fa-b-google"></i></button>
+                <button type="submit" class="btn btn-outline-primary mx-1 my-2" name="provider" value="Facebook" title="Log in using your Facebook account"><i class="svg fa-2x fa-b-facebook"></i></button>
+                <button type="submit" class="btn btn-outline-primary mx-1 my-2" name="provider" value="Microsoft" title="Log in using your Microsoft account"><i class="svg fa-2x fa-b-microsoft"></i></button>
+                <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+            </form>
+        }
+
+        <hr />
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Input.Username"></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="svg fa-l-at"></i></span>
+                    </div>
+                    <input asp-for="Input.Username" class="form-control" />
+                </div>
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.Password"></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="svg fa-l-key"></i></span>
+                        </div>
+                        <input asp-for="Input.Password" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="svg fa-l-key"></i></span>
+                        </div>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+                <label asp-for="Input.Email"></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="svg fa-l-envelope"></i></span>
+                    </div>
+                    <input asp-for="Input.Email" class="form-control" />
+                </div>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.FirstName"></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="svg fa-l-signature"></i></span>
+                        </div>
+                        <input asp-for="Input.FirstName" type="text" class="form-control">
+                    </div>
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Input.LastName"></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="svg fa-l-signature"></i></span>
+                        </div>
+                        <input asp-for="Input.LastName" type="text" class="form-control">
+                    </div>
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 mb-3">
+                    <label asp-for="Input.CountryCode"></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="svg fa-l-flag"></i></span>
+                        </div>
+                        <select id="countrylist" class="form-control custom-select" asp-for="Input.CountryCode" asp-items="Model.GetCountries()"></select>
+                    </div>
+                    <span asp-validation-for="Input.CountryCode" class="text-danger"></span>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label asp-for="Input.RegionCode"></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="svg fa-l-flag"></i></span>
+                        </div>
+                        <select id="regionlist" class="form-control custom-select" asp-for="Input.RegionCode"></select>
+                    </div>
+                    <span asp-validation-for="Input.RegionCode" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label asp-for="Input.PostalCode"></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="svg fa-l-mailbox"></i></span>
+                        </div>
+                        <input asp-for="Input.PostalCode" type="text" class="form-control">
+                    </div>
+                    <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+                </div>
+            </div>
+            <hr />
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Sign me up!</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        //Bind Region dropdownlist
+        $("#countrylist").change(function () {
+            var currentCountryVal = $("#countrylist").val();
+            var url = "/Account/Register?handler=Regions";
+
+            $.getJSON(url, { countryCode: currentCountryVal }, function (data) {  
+                var item = "";
+                $("#regionlist").empty();
+                $.each(data, function (i, region) {
+                    item += '<option value="' + region.value + '">' + region.text + '</option>'
+                });
+                $("#regionlist").html(item);
+            });
+        });
+    </script>
+}
