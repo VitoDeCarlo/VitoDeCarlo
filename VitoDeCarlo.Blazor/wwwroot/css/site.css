@@ -68,8 +68,8 @@ body {
 }
 
 .navbar-brand img {
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
 }
 
     .navbar ul {
@@ -85,17 +85,30 @@ body {
 
         .navbar ul li {
             padding: .5rem;
-            color: gainsboro;
         }
+
+.navbar a {
+    color: navajowhite;
+}
+.navbar a.active {
+    color: red;
+}
 
 .home-nav {
     position: absolute;
-    left: 0;
-    bottom: 20%;
+    left: 2rem;
+    bottom: 30%;
+    margin: 0;
+    padding: 0;
     font-family: 'Merienda', cursive;
-    font-size: xx-large;
+    font-size: larger;
     color: #fff;
+    list-style-type: none;
 }
+    .home-nav ul {
+        margin: 0;
+        padding: 0;
+    }
     .home-nav a {
         color: navajowhite;
         text-decoration: none;
@@ -146,16 +159,74 @@ body {
         display: none;
     }
 
+.social-nav {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    height: 4rem;
+    position: absolute;
+    bottom: 4rem;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+}
+.social-nav li {
+    margin: 0 1rem;
+}
+.social-nav a {
+    color: navajowhite;
+}
+
+.centered {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+}
+
+.legal-nav {
+    position: absolute;
+    bottom: 1rem;
+    height: 2rem;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: smaller;
+}
+    .legal-nav li {
+        margin: 0 .5rem;
+        color: navajowhite;
+    }
+.legal-nav a {
+    color: navajowhite;
+}
+
+main {
+    height: 100%;
+    overflow-x: scroll;
+}
+
+article {
+}
+
+article.screen {
+    margin: 10%;
+    padding: 5%;
+    background-color: rgba(255,255,255,0.5);
+}
 
 
 .gallery-container {
     position: absolute;
     right: 0;
-    width: 60%;
+    width: 96%;
     height: 96%;
     overflow-y: scroll;
     overflow-x: hidden;
-    overflow
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -174,7 +245,7 @@ body {
     .gallery-photo img {
         width: 100%;
         border: solid;
-        border-width: 20px;
+        border-width: 10px;
         border-color: burlywood;
     }
 
@@ -196,7 +267,7 @@ body {
 
 @media (min-width: 320px) {
     .home-nav {
-        font-size: small;
+        font-size: large;
     }
     .gallery-title {
         font-size: xx-small;
@@ -205,7 +276,7 @@ body {
 
 @media (min-width: 576px) {
     .home-nav {
-        font-size: medium;
+        font-size: large;
     }
     .gallery-title {
         font-size: x-small;
@@ -214,7 +285,7 @@ body {
 
 @media (min-width: 768px) {
     .home-nav {
-        font-size: large;
+        font-size: x-large;
     }
     .gallery-title {
         font-size: small;
@@ -223,7 +294,7 @@ body {
 
 @media (min-width: 992px) {
     .home-nav {
-        font-size: x-large;
+        font-size: xx-large;
     }
     .gallery-title {
         font-size: medium;
