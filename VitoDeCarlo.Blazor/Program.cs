@@ -1,12 +1,9 @@
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using VitoDeCarlo.Areas.Identity;
-using VitoDeCarlo.Blazor.Data;
 using VitoDeCarlo.Blazor.Helpers;
 using VitoDeCarlo.Core.Services;
 using VitoDeCarlo.Data;
@@ -106,7 +103,6 @@ builder.Services.AddResponseCompression(o =>
 builder.Services.AddTransient<IUserStore<User>, UserStore>();
 builder.Services.AddTransient<IRoleStore<Role>, RoleStore>();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<User>>();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddHttpClient<TwilioVerifyService>();

@@ -2,6 +2,7 @@
 
 @using VitoDeCarlo.Blazor.Helpers
 @inject BrowserService Service
+@inject IJSRuntime JS
 
 <h3>Video</h3>
 
@@ -21,6 +22,11 @@
     public string VideoUrl { get; set; } = string.Empty;
     public int Width { get; set; }
     public int Height { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var module = await JS.InvokeAsync<IJSObjectReference>("import", "/Pages/Video.razor.js");
+    }
 
     async Task GetDimensions()
     {
