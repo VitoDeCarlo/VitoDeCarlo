@@ -1,0 +1,53 @@
+﻿@page "/video"
+
+@using VitoDeCarlo.Blazor.Helpers
+@inject BrowserService Service
+
+<h3>Video</h3>
+
+<iframe id="existing-iframe-example"
+        width="@Width" height="@Height"
+        src="@VideoUrl"
+        frameborder="0"
+        style="border: solid 4px #37474F"
+></iframe>
+
+<button @onclick="VideoOne">Video One</button>
+<button @onclick="VideoTwo">Video Two</button>
+<button @onclick="VideoThree">Video Three</button>
+
+@code {
+    public string VideoId { get; set; } = string.Empty;
+    public string VideoUrl { get; set; } = string.Empty;
+    public int Width { get; set; }
+    public int Height { get; set; }
+
+    async Task GetDimensions()
+    {
+        var dimension = await Service.GetDimensions();
+        Width = dimension.Width;
+        var tempHeight = Width * (9D / 16D);
+        Height = (int)Math.Ceiling(tempHeight);
+    }
+
+    async Task VideoOne()
+    {
+        await GetDimensions();
+        VideoId = "N9lRQqNDFJw";
+        VideoUrl = "https://www.youtube.com/embed/" + VideoId + "?enablejsapi=1";
+    }
+
+    async Task VideoTwo()
+    {
+        await GetDimensions();
+        VideoId = "xwLCBCYMpAg";
+        VideoUrl = "https://www.youtube.com/embed/" + VideoId + "?enablejsapi=1";
+    }
+
+    async Task VideoThree()
+    {
+        await GetDimensions();
+        VideoId = "h8Lp4AZwbuE";
+        VideoUrl = "https://www.youtube.com/embed/" + VideoId + "?enablejsapi=1";
+    }
+}

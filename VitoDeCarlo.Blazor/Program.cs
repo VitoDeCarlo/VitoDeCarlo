@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using VitoDeCarlo.Areas.Identity;
 using VitoDeCarlo.Blazor.Data;
+using VitoDeCarlo.Blazor.Helpers;
 using VitoDeCarlo.Core.Services;
 using VitoDeCarlo.Data;
 using VitoDeCarlo.Data.Identity;
@@ -109,7 +110,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddHttpClient<TwilioVerifyService>();
-
+builder.Services.AddScoped<BrowserService>();
 
 var app = builder.Build();
 

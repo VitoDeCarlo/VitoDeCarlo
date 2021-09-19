@@ -207,7 +207,7 @@ body {
 
 main {
     height: 100%;
-    overflow-x: scroll;
+    overflow-y: scroll;
 }
 
 article {
@@ -216,7 +216,7 @@ article {
 article.screen {
     margin: 10%;
     padding: 5%;
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255,255,255,0.6);
 }
 
 
