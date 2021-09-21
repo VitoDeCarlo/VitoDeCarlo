@@ -6,6 +6,7 @@ using System.Security.Claims;
 using VitoDeCarlo.Areas.Identity;
 using VitoDeCarlo.Blazor.Helpers;
 using VitoDeCarlo.Core.Services;
+using VitoDeCarlo.Core.Services.YouTube;
 using VitoDeCarlo.Data;
 using VitoDeCarlo.Data.Identity;
 using VitoDeCarlo.Models.Identity;
@@ -106,6 +107,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddHttpClient<TwilioVerifyService>();
+builder.Services.AddHttpClient<IPlaylistService, PlaylistService>();
 builder.Services.AddScoped<BrowserService>();
 
 var app = builder.Build();

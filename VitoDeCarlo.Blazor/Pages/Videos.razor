@@ -1,0 +1,20 @@
+﻿@page "/videos"
+@using VitoDeCarlo.Core.Services.YouTube
+@using VitoDeCarlo.Models.YouTube
+@inject IPlaylistService PlaylistService
+
+<h3>Video Playlists</h3>
+
+@foreach(var playlist in Playlists)
+{
+    <div>Title: @playlist.Title</div>
+}
+
+@code {
+    public IEnumerable<Playlist> Playlists { get; set; } = new List<Playlist>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Playlists = await PlaylistService.GetPlaylistsAsync();
+    }
+}
