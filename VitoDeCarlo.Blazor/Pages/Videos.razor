@@ -1,7 +1,7 @@
 ﻿@page "/videos"
-@using VitoDeCarlo.Core.Services.YouTube
+@using VitoDeCarlo.Core.Services
 @using VitoDeCarlo.Models.YouTube
-@inject IPlaylistService PlaylistService
+@inject IYouTubeService YouTubeService
 
 <h3>Video Playlists</h3>
 
@@ -15,6 +15,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Playlists = await PlaylistService.GetPlaylistsAsync();
+        Playlists = await YouTubeService.GetPlaylistsAsync();
     }
 }

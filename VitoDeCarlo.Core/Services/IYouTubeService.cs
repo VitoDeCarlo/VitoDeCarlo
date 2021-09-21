@@ -1,8 +1,8 @@
 ﻿using VitoDeCarlo.Models.YouTube;
 
-namespace VitoDeCarlo.Core.Services.YouTube;
+namespace VitoDeCarlo.Core.Services;
 
-public interface IPlaylistService
+public interface IYouTubeService
 {
     Task<IEnumerable<Playlist>> GetPlaylistsAsync();
 }
