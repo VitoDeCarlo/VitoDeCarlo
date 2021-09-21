@@ -6,4 +6,5 @@ public class Playlist
     public string Title { get; set; } = null!;
     public string Description {  get; set; } = null!;
     public string ThumbnailUrl { get; set; } = null!;
+    public int ItemCount { get; set; } = 0;
 }

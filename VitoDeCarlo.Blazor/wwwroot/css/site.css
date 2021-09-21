@@ -323,12 +323,44 @@ article.screen {
 
 
 
+.playlist-card {
+    position: relative;
+    min-height: 18rem;
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    border-radius: 50px;
+    border-color: #E3B88B;
+}
+
+    .playlist-card .title {
+        position: absolute;
+        width: 100%;
+        z-index: 1000;
+        bottom: 2rem;
+        margin: 0;
+        padding: 0;
+        background-color: rgba(21,21,21, 0.6);
+        font-family: Merienda;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #E3B88B;
+    }
 
 
-
-
-
-
+    .playlist-card .flyin-one {
+        position: absolute;
+        width: 30%;
+        z-index: 1000;
+        bottom: 1rem;
+        right: 0px;
+        padding: .25rem;
+        background-color: rgba(30,73,68,0.6);
+        font-family: Merienda;
+        font-size: .8rem;
+        color: #E3B88B;
+    }
 
 
 
