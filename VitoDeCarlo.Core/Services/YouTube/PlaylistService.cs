@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System.Text.Json;
 using VitoDeCarlo.Models.YouTube;
 
@@ -7,15 +8,18 @@ namespace VitoDeCarlo.Core.Services.YouTube;
 public class PlaylistService : IPlaylistService
 {
     private readonly HttpClient httpClient;
+    private readonly IConfiguration configuration;
 
-    public PlaylistService(HttpClient httpClient)
+    public PlaylistService(HttpClient httpClient, IConfiguration configuration)
     {
         this.httpClient = httpClient;
+        this.configuration = configuration;
     }
 
     public async Task<IEnumerable<Playlist>> GetPlaylistsAsync()
     {
-        var jsonResult = await httpClient.GetStringAsync("https://youtube.googleapis.com/youtube/v3/playlists?key=AIzaSyBa6WuGIoOHag_aN5S22EfVn_0Goa7vBWM&part=contentDetails%2Csnippet&channelId=UC_ESAegzhlBCnWdYYL4DjaA");
+        var apiKey = configuration["Secrets:Google:ApiKey"];
+        var jsonResult = await httpClient.GetStringAsync("https://youtube.googleapis.com/youtube/v3/playlists?key=" + apiKey + "&part=contentDetails%2Csnippet&channelId=UC_ESAegzhlBCnWdYYL4DjaA");
 
         Rootobject? result = JsonConvert.DeserializeObject<Rootobject>(jsonResult);
 
