@@ -337,7 +337,7 @@ article.screen {
     .playlist-card .title {
         position: absolute;
         width: 100%;
-        z-index: 1000;
+        z-index: 100;
         bottom: 2rem;
         margin: 0;
         padding: 0;
@@ -352,7 +352,7 @@ article.screen {
     .playlist-card .flyin-one {
         position: absolute;
         width: 30%;
-        z-index: 1000;
+        z-index: 100;
         bottom: 1rem;
         right: 0px;
         padding: .25rem;
@@ -374,7 +374,7 @@ article.screen {
     .playlistitem-card .title {
         position: absolute;
         width: 100%;
-        z-index: 1000;
+        z-index: 100;
         bottom: 2rem;
         margin: 0;
         padding: 0 1rem;
@@ -398,7 +398,7 @@ article.screen {
     .playlistitem-card .flyin-one {
         position: absolute;
         width: 100%;
-        z-index: 1000;
+        z-index: 100;
         bottom: 1rem;
         right: 0px;
         padding: .25rem;
@@ -411,6 +411,22 @@ article.screen {
 .video-player {
     position: absolute;
 
+}
+
+.player-modal {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 500;
+    top: 0;
+    background-color: black;
+}
+
+.player-modal .modal-cancel {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: red;
 }
 
 

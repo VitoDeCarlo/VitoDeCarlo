@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.5.0-beta.4" />
+    <PackageReference Include="BlazorPro.BlazorSize" Version="6.0.0-pre" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="6.0.0-rc.1.21452.15" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.0-rc.1.21452.15" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="6.0.0-rc.1.21452.15" />

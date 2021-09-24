@@ -1,11 +1,13 @@
 ﻿@page "/videos"
 
+@using BlazorPro.BlazorSize
 @using VitoDeCarlo.Core.Services
 @using VitoDeCarlo.Models.YouTube
 @using VitoDeCarlo.Blazor.Helpers
-@inject IJSRuntime JS
-@inject BrowserService Service
+@inject IResizeListener listener
 @inject IYouTubeService YouTubeService
+@inject IJSRuntime JS
+@implements IDisposable
 
 <main>
 <h3>Video Playlists</h3>
@@ -60,12 +62,20 @@
     </div>
 </div>
 
-<iframe id="existing-iframe-example"
-        width="@VideoWidth" height="@VideoHeight"
-        src="@VideoUrl"
-        frameborder="0"
-        style="border: solid 4px #37474F">
-</iframe>
+<div class="player-modal" style="display: @playerDisplay;">
+    <iframe id="existing-iframe-example"
+            width="@VideoWidth" height="@VideoHeight"
+            src="@VideoUrl"
+            frameborder="0"
+            style="border: solid 4px #37474F">
+    </iframe>
+    <div class="modal-cancel" @onclick="HidePlayer"><i class="fad fa-circle-xmark fa-4x" /></div>
+</div>
+<h3>Width: @browser.Width</h3>
+<h3>Height: @browser.Height</h3>
+<br />
+<h3>Video Width: @VideoWidth</h3>
+<h3>Video Height: @VideoHeight</h3>
 
 </main>
 
@@ -74,49 +84,108 @@
     public IEnumerable<PlaylistItem> PlaylistItems { get; set; } = new List<PlaylistItem>();
     public string VideoId { get; set; } = string.Empty;
     public string VideoUrl { get; set; } = string.Empty;
-    public int Width { get; set; }
-    public int Height { get; set; }
     public int VideoWidth { get; set; }
     public int VideoHeight { get; set; }
+	// We can also capture the browser's width / height if needed. We hold the value here.
+    BrowserWindowSize browser = new BrowserWindowSize();
+    protected string playerDisplay { get; set; } = "none";
+
+    bool IsSmallMedia = false;
 
     protected override async Task OnInitializedAsync()
     {
         Playlists = await YouTubeService.GetPlaylistsAsync();
         PlaylistItems = await YouTubeService.GetPlaylistItemsAsync("PLSTiKS27BXmxGp0l1NQwnN21LkmErxRCB");
-        var module = await JS.InvokeAsync<IJSObjectReference>("import", "/Pages/Videos.razor.js");
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
-        await GetDimensions();
-    }
-
-    async Task GetDimensions()
-    {
-        var dimension = await Service.GetDimensions();
-        Width = dimension.Width;
-        Height = dimension.Height;
-        if (Height > Width * .5)
+        if (firstRender)
         {
-            VideoWidth = Width;
-            VideoHeight = (int)(Width * .5625);
+			// Subscribe to the OnResized event. This will do work when the browser is resized.
+            listener.OnResized += WindowResized;
+            var module = JS.InvokeAsync<IJSObjectReference>("import", "/Pages/Videos.razor.js");
+        }
+    }
+
+    void IDisposable.Dispose()
+    {
+		// Always use IDisposable in your component to unsubscribe from the event.
+		// Be a good citizen and leave things how you found them. 
+		// This way event handlers aren't called when nobody is listening.
+        listener.OnResized -= WindowResized;
+    }
+
+	// This method will be called when the window resizes.
+	// It is ONLY called when the user stops dragging the window's edge. (It is already throttled to protect your app from perf. nightmares)
+    async void WindowResized(object _, BrowserWindowSize window)
+    {
+		// Get the browsers's width / height
+        browser = window;
+
+		// Check a media query to see if it was matched. We can do this at any time, but it's best to check on each resize
+        IsSmallMedia = await listener.MatchMedia(Breakpoints.SmallDown);
+
+        // Update video window size
+        GetDimensions();
+
+		// We're outside of the component's lifecycle, be sure to let it know it has to re-render.
+        StateHasChanged();
+    }
+
+
+
+    void GetDimensions()
+    {
+        int width = browser.Width;
+        int height = browser.Height;
+
+        // Subtract the navbar from the larger dimension
+        if (browser.Width > browser.Height)
+        {
+            width -= 64;
         }
         else
         {
-            VideoHeight = Height;
-            VideoWidth = (int)(Height * 1.78);
+            height -= 64;
         }
+        // Check for sufficient height to display at full width
+        if (height < width * .5625)
+        {
+            VideoHeight = height;
+            VideoWidth = (int)(VideoHeight * 1.78);
+        }
+        else
+        {
+            VideoWidth = width;
+            VideoHeight = (int)(VideoWidth * .5625);
+        }
+        //if (width > height * .5625)
+        //{
+        //    VideoWidth = width;
+        //    VideoHeight = (int)(VideoWidth * .5625);
+        //}
+        //else
+        //{
+        //    VideoHeight = height;
+        //    VideoWidth = (int)(VideoHeight * 1.78);
+        //}
     }
 
     void PlayVideo(string videoId)
     {
+        GetDimensions();
+        ShowPlayer();
         VideoUrl = "https://www.youtube.com/embed/" + videoId + "?enablejsapi=1";
     }
 
-    async Task VideoOne()
+    void HidePlayer()
     {
-        await GetDimensions();
-        VideoId = "N9lRQqNDFJw";
-        VideoUrl = "https://www.youtube.com/embed/" + VideoId + "?enablejsapi=1";
+        playerDisplay = "none";
+    }
+
+    void ShowPlayer()
+    {
+        playerDisplay = "block";
     }
 }

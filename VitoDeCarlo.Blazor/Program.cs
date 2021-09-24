@@ -1,3 +1,4 @@
+using BlazorPro.BlazorSize;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -111,7 +112,7 @@ builder.Services.AddHttpClient<IYouTubeService, YouTubeService>(options =>
     options.BaseAddress = new Uri("https://youtube.googleapis.com/youtube/v3/");
 });
 builder.Services.AddScoped<BrowserService>();
-
+builder.Services.AddScoped<IResizeListener, ResizeListener>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
