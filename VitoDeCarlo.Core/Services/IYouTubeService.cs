@@ -5,7 +5,7 @@ namespace VitoDeCarlo.Core.Services;
 public interface IYouTubeService
 {
     Task<IEnumerable<Playlist>> GetPlaylistsAsync();
-    Task<IEnumerable<PlaylistItem>> GetPlaylistItemsAsync();
+    Task<IEnumerable<PlaylistItem>> GetPlaylistItemsAsync(string playlistId);
 }
 
 public class Rootobject

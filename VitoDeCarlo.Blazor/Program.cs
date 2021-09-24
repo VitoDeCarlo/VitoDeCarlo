@@ -106,7 +106,10 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddHttpClient<TwilioVerifyService>();
-builder.Services.AddHttpClient<IYouTubeService, YouTubeService>();
+builder.Services.AddHttpClient<IYouTubeService, YouTubeService>(options =>
+{
+    options.BaseAddress = new Uri("https://youtube.googleapis.com/youtube/v3/");
+});
 builder.Services.AddScoped<BrowserService>();
 
 var app = builder.Build();

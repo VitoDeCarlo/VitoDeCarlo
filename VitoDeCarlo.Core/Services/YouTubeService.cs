@@ -8,11 +8,13 @@ public class YouTubeService : IYouTubeService
 {
     private readonly HttpClient httpClient;
     private readonly IConfiguration configuration;
+    private readonly string googleApiKey = string.Empty;
 
     public YouTubeService(HttpClient httpClient, IConfiguration configuration)
     {
         this.httpClient = httpClient;
         this.configuration = configuration;
+        googleApiKey = configuration["Secrets:Google:ApiKey"];
     }
 
     /// <summary>
@@ -21,15 +23,14 @@ public class YouTubeService : IYouTubeService
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing a list of playlists for the channelId.</returns>
     public async Task<IEnumerable<Playlist>> GetPlaylistsAsync()
     {
-        var apiKey = configuration["Secrets:Google:ApiKey"];
-        var jsonResult = await httpClient.GetStringAsync("https://youtube.googleapis.com/youtube/v3/playlists?key=" + apiKey + "&part=contentDetails%2Csnippet&channelId=UC_ESAegzhlBCnWdYYL4DjaA");
+        var jsonResult = await httpClient.GetStringAsync("playlists?key=" + googleApiKey + "&part=contentDetails%2Csnippet&channelId=UC_ESAegzhlBCnWdYYL4DjaA");
 
         Rootobject? result = JsonConvert.DeserializeObject<Rootobject>(jsonResult);
 
-        List<Playlist> playlists = new List<Playlist>();
+        List<Playlist> playlists = new();
         foreach (var list in result.items)
         {
-            Playlist playlist = new Playlist
+            Playlist playlist = new()
             {
                 Id = list.id,
                 Title = list.snippet.title,
@@ -49,15 +50,18 @@ public class YouTubeService : IYouTubeService
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing the playlist items for the specified <paramref name="playlistId"/>.</returns>
     public async Task<IEnumerable<PlaylistItem>> GetPlaylistItemsAsync(string playlistId)
     {
-        var apiKey = configuration["Secrets:Google:ApiKey"];
-        var jsonResult = await httpClient.GetStringAsync("https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails%2Cid%2Csnippet%2Cstatus&maxResults=50&playlistId=PLSTiKS27BXmxGp0l1NQwnN21LkmErxRCB&key=" + apiKey );
+        string requestUri = "playlistItems?playlistId=" + playlistId + "&key=" + googleApiKey;
+        string part = Uri.EscapeDataString("contentDetails,id,snippet,status");
+        requestUri += "&part=" + part;
+        requestUri += "&maxResults=50";
+        var jsonResult = await httpClient.GetStringAsync(requestUri);
 
         Rootobject? result = JsonConvert.DeserializeObject<Rootobject>(jsonResult);
 
-        List<PlaylistItem> playlistItems = new List<PlaylistItem>();
+        List<PlaylistItem> playlistItems = new();
         foreach (var item in result.items)
         {
-            PlaylistItem playlistItem = new PlaylistItem
+            PlaylistItem playlistItem = new()
             {
                 Id = item.id,
                 Title = item.snippet.title,

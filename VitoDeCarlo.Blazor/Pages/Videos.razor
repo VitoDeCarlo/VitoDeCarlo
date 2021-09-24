@@ -1,8 +1,13 @@
 ﻿@page "/videos"
+
 @using VitoDeCarlo.Core.Services
 @using VitoDeCarlo.Models.YouTube
+@using VitoDeCarlo.Blazor.Helpers
+@inject IJSRuntime JS
+@inject BrowserService Service
 @inject IYouTubeService YouTubeService
 
+<main>
 <h3>Video Playlists</h3>
 
 <div class="container">
@@ -16,12 +21,102 @@
         }
     </div>
 </div>
+<hr />
+
+
+
+
+
+
+
+
+<div class="album py-5">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">
+
+        @foreach(var item in PlaylistItems)
+        {
+        <div class="col">
+          <div class="playlistitem-card card shadow-sm">
+            <div class="bd-placeholder-img card-img-top" style="background-image: url('@item.ThumbnailUrl');">
+                <span class="title">@item.Title</span>
+            </div>
+
+            <div class="card-body">
+              <div class="card-text description">@item.Description</div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" @onclick="() => PlayVideo(item.VideoId)" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                </div>
+                <small class="text-muted">9 mins</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+
+        </div>
+    </div>
+</div>
+
+<iframe id="existing-iframe-example"
+        width="@VideoWidth" height="@VideoHeight"
+        src="@VideoUrl"
+        frameborder="0"
+        style="border: solid 4px #37474F">
+</iframe>
+
+</main>
 
 @code {
     public IEnumerable<Playlist> Playlists { get; set; } = new List<Playlist>();
+    public IEnumerable<PlaylistItem> PlaylistItems { get; set; } = new List<PlaylistItem>();
+    public string VideoId { get; set; } = string.Empty;
+    public string VideoUrl { get; set; } = string.Empty;
+    public int Width { get; set; }
+    public int Height { get; set; }
+    public int VideoWidth { get; set; }
+    public int VideoHeight { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Playlists = await YouTubeService.GetPlaylistsAsync();
+        PlaylistItems = await YouTubeService.GetPlaylistItemsAsync("PLSTiKS27BXmxGp0l1NQwnN21LkmErxRCB");
+        var module = await JS.InvokeAsync<IJSObjectReference>("import", "/Pages/Videos.razor.js");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await GetDimensions();
+    }
+
+    async Task GetDimensions()
+    {
+        var dimension = await Service.GetDimensions();
+        Width = dimension.Width;
+        Height = dimension.Height;
+        if (Height > Width * .5)
+        {
+            VideoWidth = Width;
+            VideoHeight = (int)(Width * .5625);
+        }
+        else
+        {
+            VideoHeight = Height;
+            VideoWidth = (int)(Height * 1.78);
+        }
+    }
+
+    void PlayVideo(string videoId)
+    {
+        VideoUrl = "https://www.youtube.com/embed/" + videoId + "?enablejsapi=1";
+    }
+
+    async Task VideoOne()
+    {
+        await GetDimensions();
+        VideoId = "N9lRQqNDFJw";
+        VideoUrl = "https://www.youtube.com/embed/" + VideoId + "?enablejsapi=1";
     }
 }
